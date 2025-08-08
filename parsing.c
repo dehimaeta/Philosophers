@@ -6,7 +6,7 @@
 /*   By: rmalkhas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:06:24 by rmalkhas          #+#    #+#             */
-/*   Updated: 2025/08/07 03:03:18 by rmalkhas         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:54:04 by rmalkhas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ const	char	*valid_input(const char *str)
 		error_exit("axper dzer es arnum esi tiv chi!!!");
 	number = str;
 	while ((is_digit(str[i])))
+	{
+		i++;
 		len++;
+	}
 	if (len > 10)
 		error_exit("hamy hanum es INT_MAX ic poqr tiv tur!");
 	return(number);
