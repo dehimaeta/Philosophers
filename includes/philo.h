@@ -67,6 +67,7 @@ typedef struct s_philo
 	int			id;
 	int			meals_counter;
 	bool		full;
+	long		start_simulation;
 	long		last_meal_time;
 	t_fork		*left_fork;
 	t_fork		*right_fork;

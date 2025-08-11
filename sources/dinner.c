@@ -6,7 +6,7 @@
 /*   By: rmalkhas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:55:19 by rmalkhas          #+#    #+#             */
-/*   Updated: 2025/08/09 03:24:00 by rmalkhas         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:40:42 by rmalkhas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	*one_philo(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	wait_threads(philo->table);
-	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
+	increase_long(&philo->table->mutex, &philo->table->running_nbr);
 	write_status(TAKE_LEFT_FORK, philo);
-	while (!simulation_finished(philo->table))
-		usleep(200);
+	usleep_precise(philo->table->time_to_die, philo->table);
+	write_status(DIED, philo);
+	set_bool(&philo->table->mutex, &philo->table->end_stimulations, true);
 	return (NULL);
 }
 
@@ -93,6 +93,7 @@ void	dinner_start(t_table *table)
 	else if (table->philo_nbr == 1)
 		safe_thread(&table->philos[0].thread_id, one_philo,
 			&table->philos[0], CREATE);
+			
 	else
 	{
 		while (++i < table->philo_nbr)

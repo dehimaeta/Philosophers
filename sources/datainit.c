@@ -6,7 +6,7 @@
 /*   By: rmalkhas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 03:03:40 by rmalkhas          #+#    #+#             */
-/*   Updated: 2025/08/09 03:18:02 by rmalkhas         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:07:24 by rmalkhas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	philo_init(t_table *table)
 		philo->table = table;
 		philo->id = i + 1;
 		philo->full = false;
+		philo->start_simulation = gettime(MILLISECOND);
 		philo->meals_counter = 0;
 		safe_mutex(&philo->philo_mutex, INIT);
 		assing_forks(philo, table->forks, i);
