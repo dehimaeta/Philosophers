@@ -6,7 +6,7 @@
 /*   By: rmalkhas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 02:59:26 by rmalkhas          #+#    #+#             */
-/*   Updated: 2025/08/09 03:37:12 by rmalkhas         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:00:42 by rmalkhas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,4 @@ void	increase_long(t_mutex *mutex, long *value)
 	safe_mutex(mutex, LOCK);
 	(*value)++;
 	safe_mutex(mutex, UNLOCK);
-}
-
-void	synchronize_philos(t_philo *philo)
-{
-	if (philo->table->philo_nbr % 2 == 0)
-	{
-		if (philo->id % 2 == 0)
-			usleep_precise(3e4, philo->table);
-	}
-	else
-	{
-		if (philo->id % 2)
-			thinking(philo, true);
-	}
 }

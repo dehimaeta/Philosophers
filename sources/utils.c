@@ -6,7 +6,7 @@
 /*   By: rmalkhas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 01:46:29 by rmalkhas          #+#    #+#             */
-/*   Updated: 2025/08/09 03:39:47 by rmalkhas         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:02:36 by rmalkhas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,13 @@ long	gettime(t_time_code timecode)
 	return (1337);
 }
 
-void	usleep_precise(long usec, t_table *table)
+void	usleep_precise(long milliseconds)
 {
 	long	start;
-	long	elapsed;
-	long	rem;
 
-	start = gettime(MICROSECOND);
-	while (gettime(MICROSECOND) - start < usec)
-	{
-		if (simulation_finished(table))
-			break ;
-		elapsed = gettime(MICROSECOND) - start;
-		rem = usec - elapsed;
-		if (rem > 1e3)
-			usleep(rem / 2);
-		else
-		{
-			while (gettime(MICROSECOND) - start < usec)
-				;
-		}
-	}
+	start = gettime(MILLISECOND);
+	while ((gettime(MILLISECOND) - start) < milliseconds)
+		usleep(500);
 }
 
 void	clean(t_table *table)
