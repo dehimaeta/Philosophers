@@ -32,6 +32,7 @@ typedef enum e_status
 	THINKING,
 	TAKE_LEFT_FORK,
 	TAKE_RIGHT_FORK,
+	TAKE_FORK,
 	DIED,
 }			t_philo_status;
 
@@ -117,5 +118,7 @@ void	clean(t_table *table);
 void	increase_long(t_mutex *mutex, long *value);
 void	*one_philo(void *data);
 bool	all_threades_running(t_mutex *mutex, long *threads, long philo_nbr);
+void	lock_forks(t_philo *philo);
+void	unlock_forks(t_philo *philo);
 
 #endif

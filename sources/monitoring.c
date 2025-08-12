@@ -6,11 +6,51 @@
 /*   By: rmalkhas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 07:00:08 by rmalkhas          #+#    #+#             */
-/*   Updated: 2025/08/11 21:13:01 by rmalkhas         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:42:54 by rmalkhas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+void	lock_forks(t_philo *philo)
+{
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
+
+	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
+	{
+		first_fork = &philo->left_fork->fork;
+		second_fork = &philo->right_fork->fork;
+	}
+	else
+	{
+		first_fork = &philo->right_fork->fork;
+		second_fork = &philo->left_fork->fork;
+	}
+	safe_mutex(first_fork, LOCK);
+	write_status(TAKE_FORK, philo);
+	safe_mutex(second_fork, LOCK);
+	write_status(TAKE_FORK, philo);
+}
+
+void	unlock_forks(t_philo *philo)
+{
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
+
+	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
+	{
+		first_fork = &philo->left_fork->fork;
+		second_fork = &philo->right_fork->fork;
+	}
+	else
+	{
+		first_fork = &philo->right_fork->fork;
+		second_fork = &philo->left_fork->fork;
+	}
+	safe_mutex(second_fork, UNLOCK);
+	safe_mutex(first_fork, UNLOCK);
+}
 
 bool	philo_died(t_philo *philo)
 {
@@ -39,7 +79,7 @@ void	*monitor_dinner(void *data)
 		i = -1;
 		while (++i < table->philo_nbr && !simulation_finished(table))
 		{
-			if (philo_died(table->philos + i))
+			if (philo_died(table->philos + i) && table->philo_nbr != 1)
 			{
 				set_bool(&table->mutex, &table->end_stimulations, true);
 				write_status(DIED, table->philos + i);
